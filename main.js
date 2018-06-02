@@ -4,23 +4,21 @@ let startY;
 let endX;
 let endY;
 const image = new Image();
-let safeImage = new Image();
 let rectangles = [];
 let ctx;
 
 window.onload = () => {
     create.onclick = makeBlackoutPoetry;
-    canvas.width = window.innerWidth * 0.45;
-    canvas.height = window.innerHeight * 0.95;
-
+    
     ctx = canvas.getContext('2d');
-
+    
     image.onload = () => {
+        canvas.width =  image.width;
+        canvas.height = image.height;
         ctx.drawImage(image, canvas.width / 2 - image.width / 2, canvas.height / 2 - image.height / 2);
     }
 
-    safeImage.src = "page.png";
-    image.src = "page.png"
+    image.src = "page1.png"
 
     window.onmousedown = function (e) {
         // Ignore Outside canvas clicks
@@ -75,7 +73,7 @@ function makeBlackoutPoetry() {
 
     ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-    ctx.drawImage(safeImage, canvas.width / 2 - image.width / 2, canvas.height / 2 - image.height / 2);
+    ctx.drawImage(image, canvas.width / 2 - image.width / 2, canvas.height / 2 - image.height / 2);
 
     for (let i = 0; i < rectangles.length; i++) {
         const rect = rectangles[i];
