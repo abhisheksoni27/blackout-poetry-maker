@@ -24,38 +24,6 @@ window.onload = () => {
 
 }
 
-function setupListeners() {
-    window.onmousedown = function (e) {
-        // Ignore Outside canvas clicks
-        if (e.srcElement == document.querySelector('#canvas')) {
-            canvas.style.cursor = "crosshair";
-            mouseIsDown = true;
-            startX = e.pageX - canvas.offsetLeft;
-            startY = e.pageY - canvas.offsetTop;
-        }
-    }
-
-    window.onmouseup = function (e) {
-        // Ignore Outside canvas clicks
-        if (e.srcElement == document.querySelector('#canvas')) {
-
-            canvas.style.cursor = "default";
-            mouseIsDown = false;
-            endX = e.pageX - canvas.offsetLeft;
-            endY = e.pageY - canvas.offsetTop;
-            const rect = {
-                x: startX,
-                y: startY,
-                width: endX - startX,
-                height: endY - startY
-            }
-
-            drawRectangle(ctx, rect.x, rect.y, rect.width, rect.height);
-            rectangles.push(rect);
-        }
-    }
-}
-
 function makeBlackoutPoetry() {
     if (!imageExists) {
         return;
@@ -114,4 +82,36 @@ function loadImageHandler(files) {
     }
 
     reader.readAsDataURL(selectedFile);
+}
+
+function setupListeners() {
+    window.onmousedown = function (e) {
+        // Ignore Outside canvas clicks
+        if (e.srcElement == document.querySelector('#canvas')) {
+            canvas.style.cursor = "crosshair";
+            mouseIsDown = true;
+            startX = e.pageX - canvas.offsetLeft;
+            startY = e.pageY - canvas.offsetTop;
+        }
+    }
+
+    window.onmouseup = function (e) {
+        // Ignore Outside canvas clicks
+        if (e.srcElement == document.querySelector('#canvas')) {
+
+            canvas.style.cursor = "default";
+            mouseIsDown = false;
+            endX = e.pageX - canvas.offsetLeft;
+            endY = e.pageY - canvas.offsetTop;
+            const rect = {
+                x: startX,
+                y: startY,
+                width: endX - startX,
+                height: endY - startY
+            }
+
+            drawRectangle(ctx, rect.x, rect.y, rect.width, rect.height);
+            rectangles.push(rect);
+        }
+    }
 }
