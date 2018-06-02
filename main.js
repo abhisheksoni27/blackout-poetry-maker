@@ -20,6 +20,7 @@ window.onload = () => {
 
     setupListeners();
     create.onclick = makeBlackoutPoetry;
+    clear.onclick = clearCanvas;
     ctx = canvas.getContext('2d');
 
 }
@@ -28,6 +29,7 @@ function makeBlackoutPoetry() {
     if (!imageExists) {
         return;
     }
+
     let canvasTemp;
     let ctxTemp;
 
@@ -40,26 +42,20 @@ function makeBlackoutPoetry() {
         canvasTemp.height = canvas.height;
     }
 
-    // canvasTemp exists here
     ctxTemp = canvasTemp.getContext('2d');
+    ctxTemp.clearRect(0, 0, canvas.width, canvas.height)
+    ctxTemp.drawImage(image, canvas.width / 2 - image.width / 2, canvas.height / 2 - image.height / 2);
 
-    ctxTemp.fillRect(0, 0, canvas.width, canvas.height);
-    ctxTemp.fillStyle = "black";
-
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-    ctx.drawImage(image, canvas.width / 2 - image.width / 2, canvas.height / 2 - image.height / 2);
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+    ctx.fillStyle = "black";
 
     for (let i = 0; i < rectangles.length; i++) {
         const rect = rectangles[i];
-        let imgData = ctx.getImageData(rect.x, rect.y, rect.width, rect.height);
-        ctxTemp.putImageData(imgData, rect.x, rect.y);
+        let imgData = ctxTemp.getImageData(rect.x, rect.y, rect.width, rect.height);
+        ctx.putImageData(imgData, rect.x, rect.y);
     }
-
     rectangles = [];
-    document.querySelector('.container').appendChild(canvasTemp);
 }
-
 
 function drawRectangle(ctx, x, y, width, height) {
     ctx.beginPath();
@@ -114,4 +110,10 @@ function setupListeners() {
             rectangles.push(rect);
         }
     }
+}
+
+function clearCanvas() {
+    console.log("called")
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    ctx.drawImage(image, canvas.width / 2 - image.width / 2, canvas.height / 2 - image.height / 2);
 }
