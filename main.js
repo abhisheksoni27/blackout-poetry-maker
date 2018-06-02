@@ -4,7 +4,7 @@ let startY;
 let endX;
 let endY;
 const image = new Image();
-const rectangles  = [];
+const rectangles = [];
 
 window.onload = () => {
     create.onclick = makeBlackoutPoetry;
@@ -21,31 +21,39 @@ window.onload = () => {
     image.src = "page.png"
 
     window.onmousedown = function (e) {
-        canvas.style.cursor = "crosshair";
-        mouseIsDown = true;
-        startX = e.pageX - canvas.offsetLeft;
-        startY = e.pageY - canvas.offsetTop;
+        // Ignore Outside canvas clicks
+        if (e.srcElement == canvas) {
+            canvas.style.cursor = "crosshair";
+            mouseIsDown = true;
+            startX = e.pageX - canvas.offsetLeft;
+            startY = e.pageY - canvas.offsetTop;
+        }
     }
 
     window.onmouseup = function (e) {
-        canvas.style.cursor = "default";
-        mouseIsDown = false;
-        endX = e.pageX - canvas.offsetLeft;
-        endY = e.pageY - canvas.offsetTop;
-        const rect = {
-            x: startX,
-            y: startY,
-            width: endX - startX,
-            height: endY - startY
+        // Ignore Outside canvas clicks
+        if (e.srcElement == canvas) {
+
+            canvas.style.cursor = "default";
+            mouseIsDown = false;
+            endX = e.pageX - canvas.offsetLeft;
+            endY = e.pageY - canvas.offsetTop;
+            const rect = {
+                x: startX,
+                y: startY,
+                width: endX - startX,
+                height: endY - startY
+            }
+
+            drawRectangle(ctx, rect.x, rect.y, rect.width, rect.height);
+
+            rectangles.push(rect);
+            console.log(rectangles);
         }
-
-        drawRectangle(ctx, rect.x, rect.y, rect.width, rect.height);
-
-        rectangles.push(rect);
     }
 }
 
-function makeBlackoutPoetry(){
+function makeBlackoutPoetry() {
 
 }
 
