@@ -21,6 +21,7 @@ window.onload = () => {
     setupListeners();
     create.onclick = makeBlackoutPoetry;
     clear.onclick = clearCanvas;
+    download.onclick = downloadImage;
     ctx = canvas.getContext('2d');
 
 }
@@ -113,7 +114,11 @@ function setupListeners() {
 }
 
 function clearCanvas() {
-    console.log("called")
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     ctx.drawImage(image, canvas.width / 2 - image.width / 2, canvas.height / 2 - image.height / 2);
+}
+
+function downloadImage(){
+      const dataURL = canvas.toDataURL();
+      download.href = dataURL;
 }
