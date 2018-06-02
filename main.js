@@ -5,15 +5,14 @@ let endX;
 let endY;
 const image = new Image();
 const rectangles = [];
+let ctx;
 
 window.onload = () => {
     create.onclick = makeBlackoutPoetry;
-    canvas.width = window.innerWidth;
+    canvas.width = window.innerWidth * 0.45;
+    canvas.height = window.innerHeight * 0.95;
 
-    canvas.height = window.innerHeight;
-
-    const ctx = canvas.getContext('2d');
-
+    ctx = canvas.getContext('2d');
     image.onload = () => {
         ctx.drawImage(image, canvas.width / 2 - image.width / 2, canvas.height / 2 - image.height / 2);
     }
@@ -48,14 +47,26 @@ window.onload = () => {
             drawRectangle(ctx, rect.x, rect.y, rect.width, rect.height);
 
             rectangles.push(rect);
-            console.log(rectangles);
         }
     }
 }
 
 function makeBlackoutPoetry() {
-
+    const canvasTemp = document.createElement('canvas');
+    const ctxTemp = canvasTemp.getContext('2d');
+    canvasTemp.width = canvas.width;
+    canvasTemp.height = canvas.height;
+    ctx.drawImage(image, canvas.width / 2 - image.width / 2, canvas.height / 2 - image.height / 2);
+    ctxTemp.fillStyle = "black";
+    ctxTemp.fillRect(0, 0, canvas.width, canvas.height);
+    for (let i = 0; i < rectangles.length; i++) {
+        const rect = rectangles[i];
+        let imgData = ctx.getImageData(rect.x, rect.y, rect.width, rect.height);
+        ctxTemp.putImageData(imgData, rect.x, rect.y);
+    }
+    document.body.appendChild(canvasTemp);
 }
+
 
 function drawRectangle(ctx, x, y, width, height) {
     ctx.strokeStyle = 'red';
