@@ -3,23 +3,28 @@ let startX;
 let startY;
 let endX;
 let endY;
-const image = new Image();
+let image = new Image();
 let rectangles = [];
+let imageExists = false;
 let ctx;
+const reader = new FileReader();
 
 window.onload = () => {
+    const fileElem = document.getElementById("image-file");
+
+    fileSelect.addEventListener("click", function (e) {
+        if (fileElem) {
+            fileElem.click();
+        }
+    }, false);
+
+    setupListeners();
     create.onclick = makeBlackoutPoetry;
-    
     ctx = canvas.getContext('2d');
-    
-    image.onload = () => {
-        canvas.width =  image.width;
-        canvas.height = image.height;
-        ctx.drawImage(image, canvas.width / 2 - image.width / 2, canvas.height / 2 - image.height / 2);
-    }
 
-    image.src = "page1.png"
+}
 
+function setupListeners() {
     window.onmousedown = function (e) {
         // Ignore Outside canvas clicks
         if (e.srcElement == document.querySelector('#canvas')) {
@@ -52,7 +57,9 @@ window.onload = () => {
 }
 
 function makeBlackoutPoetry() {
-
+    if (!imageExists) {
+        return;
+    }
     let canvasTemp;
     let ctxTemp;
 
@@ -91,4 +98,20 @@ function drawRectangle(ctx, x, y, width, height) {
     ctx.strokeStyle = 'red';
     ctx.rect(x, y, width, height);
     ctx.stroke();
+}
+
+function loadImageHandler(files) {
+    const selectedFile = files[0];
+
+    reader.onload = function (event) {
+        image.onload = () => {
+            imageExists = true;
+            canvas.width = image.width;
+            canvas.height = image.height;
+            ctx.drawImage(image, canvas.width / 2 - image.width / 2, canvas.height / 2 - image.height / 2);
+        }
+        image.src = event.target.result;
+    }
+
+    reader.readAsDataURL(selectedFile);
 }

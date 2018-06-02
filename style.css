@@ -1,17 +1,54 @@
+body {
+    font-family: 'Raleway'
+}
+
 .container {
-    min-height: 100vh;
     display: flex;
     align-items: center;
     justify-content: center;
+    flex-direction: column;
+    min-width: 100vw;
+    min-height: 100vh;
 }
 
-#canvas {
-    border: 1px black solid;
+#title {
+    font-weight: 100;
 }
 
-/* 
-button{
-    position: absolute;
-    top:25;
-    left:0;
-} */
+#poetry-title {
+    font-weight: 700;
+    border-bottom: 0.02em dotted black;
+}
+
+button {
+    background: none;
+    border: 0.1em turquoise solid;
+    padding: 0.6em;
+    box-shadow: 1px 1px 1px 1px #aaa;
+    border-radius: 1em;
+    margin: 0.5em;
+    transition: padding, color 300ms ease;
+}
+
+button:hover {
+    background: turquoise;
+    padding: 0.5em;
+    color: white;
+}
+
+.columns {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.column {
+    width: 50vw;
+    text-align: center;
+    border: 1px solid hotpink;
+}
+
+.small{
+    width: 11vw;
+    border:none;
+}

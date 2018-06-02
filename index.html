@@ -7,6 +7,7 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Blackout Poetry Generator</title>
 
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.0/normalize.min.css">
     <!-- CSS -->
     <link rel="stylesheet" href="style.css">
     <!-- JS -->
@@ -15,8 +16,29 @@
 
 <body>
     <div class="container">
-        <canvas id="canvas"></canvas>
-        <button id="create">Create</button>
+
+        <h1 id='title'>Blackout
+            <span id="poetry-title">Poetry</span> Generator</h1>
+
+        <div class="columns">
+            <div class="column small">
+
+                <button id="fileSelect">
+                    <span class="upArrow">&#8593;</span> Load Image
+                </button>
+
+            </div>
+            <div class="column">
+                <canvas id="canvas"></canvas>
+
+            </div>
+            <div class="column small">
+
+                <button id="create">Create</button>
+            </div>
+        </div>
+        <input type="file" id="image-file" accept="image/*" style="display:none" onchange="loadImageHandler(this.files)">
+
     </div>
 </body>
 
