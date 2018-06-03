@@ -48,7 +48,35 @@ button:hover {
     border: 1px solid hotpink;
 }
 
-.small{
+.small {
     width: 11vw;
-    border:none;
+    border: none;
+}
+
+@media screen and (max-width:500px) {
+    .container {
+        min-height: 0vh;
+    }
+    button {
+        padding: 0.7em;
+    }
+    .column {
+        width: 90vw;
+        min-height: 70vh;
+        text-align: center;
+        border: 1px solid hotpink;
+    }
+
+    .small {
+        /* width: 1vw; */
+        min-height:10vh;
+        border: none;
+    }
+
+    .columns {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+    }
 }
