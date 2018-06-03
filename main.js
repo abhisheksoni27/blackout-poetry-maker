@@ -11,6 +11,7 @@ const reader = new FileReader();
 
 window.onload = () => {
     const fileElem = document.getElementById("image-file");
+    // Setup canvas and expose context via ctx variable
 
     fileSelect.addEventListener("click", function (e) {
         if (fileElem) {
@@ -23,7 +24,6 @@ window.onload = () => {
     clear.onclick = clearCanvas;
     download.onclick = downloadImage;
     ctx = canvas.getContext('2d');
-
 }
 
 function makeBlackoutPoetry() {
@@ -63,6 +63,8 @@ function drawRectangle(ctx, x, y, width, height) {
     ctx.strokeStyle = 'red';
     ctx.rect(x, y, width, height);
     ctx.stroke();
+    ctx.arc(x, y, 5, 0, 2 * Math.PI);
+    ctx.stroke();
 }
 
 function loadImageHandler(files) {
@@ -73,8 +75,8 @@ function loadImageHandler(files) {
             imageExists = true;
 
             if (navigator.userAgent.match(/Android/i)) {
-                canvas.width = document.body.clientWidth;
-                canvas.height = document.body.clientHeight;
+                canvas.width = "100%";
+                canvas.height = window.innerHeight * 0.75;
                 ctx.drawImage(image, 0, 0, 0.3 * image.width, 0.3 * image.height);
             } else {
                 canvas.width = image.width;
@@ -88,37 +90,43 @@ function loadImageHandler(files) {
     reader.readAsDataURL(selectedFile);
 }
 
+function start(e) {
+    e.preventDefault();
+
+    // Ignore Outside canvas clicks
+    if (e.srcElement == document.querySelector('#canvas')) {
+        canvas.style.cursor = "crosshair";
+        mouseIsDown = true;
+        startX = e.pageX - canvas.offsetLeft;
+        startY = e.pageY - canvas.offsetTop;
+    }
+}
+
+function end(e) {
+    e.preventDefault();
+    // Ignore Outside canvas clicks
+    if (e.srcElement == document.querySelector('#canvas')) {
+
+        canvas.style.cursor = "default";
+        mouseIsDown = false;
+        endX = e.pageX - canvas.offsetLeft
+        endY = e.pageY - canvas.offsetTop;
+        const rect = {
+            x: startX,
+            y: startY,
+            width: endX - startX,
+            height: endY - startY
+        }
+        drawRectangle(ctx, rect.x, rect.y, rect.width, rect.height);
+        rectangles.push(rect);
+    }
+}
+
 function setupListeners() {
-    window.onmousedown = function (e) {
-        // Ignore Outside canvas clicks
-        if (e.srcElement == document.querySelector('#canvas')) {
-            canvas.style.cursor = "crosshair";
-            mouseIsDown = true;
-            startX = e.pageX - canvas.offsetLeft;
-            startY = e.pageY - canvas.offsetTop;
-        }
-    }
-
-    window.onmouseup = function (e) {
-        console.log(e);
-        // Ignore Outside canvas clicks
-        if (e.srcElement == document.querySelector('#canvas')) {
-
-            canvas.style.cursor = "default";
-            mouseIsDown = false;
-            endX = e.pageX - canvas.offsetLeft
-            endY = e.pageY - canvas.offsetTop;
-            const rect = {
-                x: startX,
-                y: startY,
-                width: endX - startX,
-                height: endY - startY
-            }
-
-            drawRectangle(ctx, rect.x, rect.y, rect.width, rect.height);
-            rectangles.push(rect);
-        }
-    }
+    window.onmousedown = start;
+    window.ontouchstart = start;
+    window.onmouseup = end;
+    window.ontouchend = end;
 }
 
 function clearCanvas() {

@@ -79,4 +79,8 @@ button:hover {
         align-items: center;
         flex-direction: column;
     }
+
+    #canvas{
+        border: 1px black solid;
+    }
 }
