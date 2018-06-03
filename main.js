@@ -71,9 +71,16 @@ function loadImageHandler(files) {
     reader.onload = function (event) {
         image.onload = () => {
             imageExists = true;
-            canvas.width = image.width;
-            canvas.height = image.height;
-            ctx.drawImage(image, canvas.width / 2 - image.width / 2, canvas.height / 2 - image.height / 2);
+
+            if (navigator.userAgent.match(/Android/i)) {
+                canvas.width = document.body.clientWidth;
+                canvas.height = document.body.clientHeight;
+                ctx.drawImage(image, 0, 0, 0.3 * image.width, 0.3 * image.height);
+            } else {
+                canvas.width = image.width;
+                canvas.height = image.height;
+                ctx.drawImage(image, 0, 0);
+            }
         }
         image.src = event.target.result;
     }
@@ -93,12 +100,13 @@ function setupListeners() {
     }
 
     window.onmouseup = function (e) {
+        console.log(e);
         // Ignore Outside canvas clicks
         if (e.srcElement == document.querySelector('#canvas')) {
 
             canvas.style.cursor = "default";
             mouseIsDown = false;
-            endX = e.pageX - canvas.offsetLeft;
+            endX = e.pageX - canvas.offsetLeft
             endY = e.pageY - canvas.offsetTop;
             const rect = {
                 x: startX,
@@ -118,7 +126,7 @@ function clearCanvas() {
     ctx.drawImage(image, canvas.width / 2 - image.width / 2, canvas.height / 2 - image.height / 2);
 }
 
-function downloadImage(){
-      const dataURL = canvas.toDataURL();
-      download.href = dataURL;
+function downloadImage() {
+    const dataURL = canvas.toDataURL();
+    download.href = dataURL;
 }
