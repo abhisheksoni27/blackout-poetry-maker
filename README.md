@@ -2,11 +2,11 @@
 
 Drag over the words you wanna keep, and it'll blacken the rest of them. :blue_heart:
 
-![Init Screen](../images/Screenshot1.png)
+![Init Screen](./images/Screenshot1.png)
 
-![Draw Rectangles](../images/Screenshot2.png)
+![Draw Rectangles](./images/Screenshot2.png)
 
-![Tada](../images/Screenshot3.png)
+![Tada](./images/Screenshot3.png)
 
 :tada:
 
